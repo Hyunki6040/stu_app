@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;SpringPRJ/WebContent/.sass-cache&apos;" deleteContents="false" description="Delete resource &apos;SpringPRJ/WebContent/.sass-cache&apos;" element1="/SpringPRJ/WebContent/.sass-cache" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1544668237308"/>
+</session>

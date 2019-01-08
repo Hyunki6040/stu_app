@@ -1,0 +1,5 @@
+INDEX VERSION 1.4+D:\clon\project\workspace\SpringPRJ\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+737419877.index
+32016301.index
+1493904513.index
+2570637632.index

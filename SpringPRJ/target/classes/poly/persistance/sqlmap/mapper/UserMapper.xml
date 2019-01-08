@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.UserMapper">
+   <!-- insert, update, delete, select -->
+   
+   <select id="getBarcode" parameterType="string" resultType="string">
+      SELECT barcode_no
+      from user_info
+      where (stu_no = #{stu_no})
+   </select>
+   
+   <select id="getLogin" parameterType="poly.dto.UserDTO" resultType="string">
+      SELECT stu_no
+      from user_info
+      where (stu_no = #{stu_no} AND password = #{password})
+   </select>
+   <select id="getStudent" parameterType="string" resultType="poly.dto.StuDTO">
+      SELECT *
+      from stu_info
+      where (stu_no = #{stu_no})
+   </select>
+   <select id="getUser" parameterType="string" resultType="poly.dto.UserDTO">
+      SELECT *
+      from user_info
+      where (stu_no = #{stu_no})
+   </select>
+   
+   <!-- 자동로그인 -->
+   <update id="keepLogin" parameterType="poly.dto.UserDTO">
+       UPDATE user_info
+       SET session_key = #{session_key},
+           session_limit = #{session_limit}
+       WHERE (stu_no = #{stu_no})
+   </update>
+   
+   <select id="checkUserWithSessionKey" parameterType="string" resultType="string">
+    SELECT stu_no
+    FROM user_info
+    WHERE session_key = #{session_key}
+   </select>
+   
+   <insert id="insertUser" parameterType="UserDTO">
+      INSERT INTO USER_INFO
+      (
+         STU_NO,
+         PASSWORD,
+         BARCODE_NO,
+         PHOTO,
+         REG_DT
+      )
+      VALUES
+      (
+         #{stu_no},
+         #{password},
+         #{barcode_no},
+         #{photo},
+         now()
+      )
+   </insert>
+   
+   <!-- 회원가입시 원래 DB 회원가입과 비교 -->
+   <select id="getCompare" parameterType="StuDTO" resultType="string">
+      SELECT stu_no FROM stu_info WHERE(stu_no = #{stu_no} AND department = #{department} AND stu_name = #{stu_name} AND birth_date = #{birth_date})
+   </select>
+   
+   <!-- 학번으로 중복 체크 -->
+   <select id = "getIdChk" parameterType="string" resultType="string">
+      SELECT stu_no
+      FROM user_info
+      WHERE (stu_no = #{stu_no})
+   </select>
+   
+   <!-- 사진 등록/수정 -->
+   <update id = "updatePhoto" parameterType="UserDTO">
+         UPDATE USER_INFO
+            SET PHOTO = #{photo}
+         WHERE (stu_no = #{stu_no})
+   </update>
+   <!-- 회원 탈퇴 -->
+   <delete id="deleteUser" parameterType="string">
+      DELETE FROM user_info WHERE stu_no=#{stu_no}
+   </delete>
+   <update id="setPassword" parameterType="UserDTO">
+        UPDATE user_info
+      SET password = #{password}
+      WHERE (stu_no = #{stu_no})
+   </update>
+
+   <!--    <select id="getPhoto" parameterType="UserDTO" resultType="UserDTO">
+      SELECT PHOTO = #{photo}
+        FROM user_info
+       WHERE (stu_no = #{stu_no})
+   </select> -->
+   
+</mapper>
