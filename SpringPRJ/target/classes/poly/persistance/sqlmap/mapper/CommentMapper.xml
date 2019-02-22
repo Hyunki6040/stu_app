@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.CommentMapper">
+   <!-- insert, update, delete, select -->
+    <select id="CommentsList" resultType="CommentDTO">
+        SELECT *
+        FROM  comments
+        ORDER BY 
+        	(liked*50 + 1) / (CAST((now() - reg_dt) AS signed integer)/1000000) desc,
+            bno desc;
+    </select>
+    
+    <select id="CampusCommentsList" resultType="CommentDTO">
+        SELECT *
+        FROM  comments
+        ORDER BY 
+        	(liked*50 + 1) / (CAST((now() - reg_dt) AS signed integer)/1000000) desc,
+            bno desc;
+    </select>
+    
+    <insert id="insert" parameterType="CommentDTO">
+      INSERT INTO comments
+      (
+      	bno,
+         writer,
+         comments,
+         liked_usr,
+         hatred_usr,
+         reg_dt
+      )
+      VALUES
+      (
+      	#{bno},
+         #{writer},
+         #{comments},
+         ', ',
+         ', ',
+         now()
+      )
+   </insert>
+   
+   <select id="getComment"  parameterType="int" resultType="CommentDTO">
+        SELECT *
+        FROM  comments
+        WHERE (cno = #{cno})
+    </select>
+
+    <update id="updateLikedComment" parameterType="CommentDTO">
+    	UPDATE comments
+    	SET liked=#{liked}, liked_usr=#{liked_usr}
+    	WHERE (cno = #{cno})
+    </update>
+    
+    <update id="updateHatredComment" parameterType="CommentDTO">
+    	UPDATE comments
+    	SET hatred=#{hatred}, hatred_usr=#{hatred_usr}
+    	WHERE (cno = #{cno})
+    </update>
+    
+    <delete id="CommentDelete" parameterType="CommentDTO">
+    	DELETE
+    	FROM comments
+    	WHERE(cno=#{cno} AND writer=#{writer})
+    </delete>
+</mapper>

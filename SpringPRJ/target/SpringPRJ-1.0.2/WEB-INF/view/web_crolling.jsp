@@ -1,3 +1,4 @@
+<%@page import="poly.util.CmmUtil"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.io.IOException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -32,61 +33,71 @@
 
 
 	<%
+	    String campus = (String)session.getAttribute("campus");
 		String menu = "";
-		try{
-		// 파싱할 사이트를 적어준다(해당 사이트에 대한 태그를 다 긁어옴)
-		Document doc = Jsoup.connect("http://www.kopo.ac.kr/kangseo/content.do?menu=262").get();
+		String menu_type = CmmUtil.nvl(request.getParameter("menu_type"));
+		String url = CmmUtil.nvl(request.getParameter("url"));
 
-		String[] week_array = new String[7];
-		int num = 0;
+		try {
+										// 파싱할 사이트를 적어준다(해당 사이트에 대한 태그를 다 긁어옴)
+										Document doc = Jsoup.connect(url).get();
 
-		//요일 불러오기
-		Calendar cal = Calendar.getInstance();
-		int day_of_week = cal.get(Calendar.DAY_OF_WEEK);
-		if (day_of_week == 1) {
-			num = 7;
-		} else if (day_of_week == 2) {
-			num = 1;
-		} else if (day_of_week == 3) {
-			num = 2;
-		} else if (day_of_week == 4) {
-			num = 3;
-		} else if (day_of_week == 5) {
-			num = 4;
-		} else if (day_of_week == 6) {
-			num = 5;
-		} else if (day_of_week == 7) {
-			num = 6;
-		}
+										String[] week_array = new String[7];
+										int num = 0;
 
-		Elements element = doc.select("div.meal_box>table>tbody");
+										//요일 불러오기
+										Calendar cal = Calendar.getInstance();
+										int day_of_week = cal.get(Calendar.DAY_OF_WEEK);
+										if (menu_type.equals("A")) {
+											if (day_of_week == 1) {
+												num = 7;
+											} else {
+												num = day_of_week - 1;
+											}
+										} else {
+											num = day_of_week;
+										}
 
-		
-		for (Element e : element) {
-			Elements day = element.select("tr");
-			int a = 1;
-			for (Element f : day) {
-				if (num == a) {
-					Elements selected_day = f.select("td");
-					
-					int b = 1;
-					for (Element g : selected_day) {
-						if(b==3){
-							menu = g.text().replaceAll("<td> <span>", "").replaceAll("</span> </td>", "");
-							
-							break;
-						}
-						b++;
-					}
+										Elements element = doc.select("div.meal_box>table>tbody");
 
-				}
-				a++;
-			}
-		}
-		}catch(Exception e){
-			menu = "메뉴불러오기 실패";
-		}
-	%>
+										int a = 1;
+										int b = 1;
+										for (Element e : element) {
+											Elements day = element.select("tr");
+											for (Element f : day) {
+												if (num == a) {
+													Elements selected_day = f.select("td");
+
+													for (Element g : selected_day) {
+
+														String string = g.text().replaceAll("<td> <span>", "").replaceAll("</span> </td>",
+																"");
+														if (string.replaceAll(" ", "").length() > 0) {
+															if (b == 2) {
+																menu += "<p style=\"color:#F2CB61\">[조식] </p><p>" + string + "</p>";
+															} else if (b == 3) {
+																menu += "<p style=\"color:#F2CB61\">[중식] </p><p>" + string + "</p>";
+															} else if (b == 4) {
+																menu += "<p style=\"color:#F2CB61\">[석식] </p><p>" + string + "</p>";
+																break;
+															}
+														} else {
+
+														}
+														b++;
+													}
+
+												}
+												a++;
+											}
+										}
+										if (menu.length() < 1) {
+											menu += "<a href=" + url + "><p>홈페이지에 업로드된 메뉴가 없습니다.<br/>홈페이지를 확인해주세요</p></a>";
+										}
+									} catch (Exception e) {
+										menu = "메뉴불러오기 실패(" + e + ")";
+									}
+							%>
 <%=menu %>
 </body>
 

@@ -10,6 +10,9 @@ public class UserDTO {
 	private String reg_dt; //가입일자
 	private String barcode_no; //바코드 번호
 	private String photo;//사진
+	private String nickname; //익명
+	private String campus; //캠퍼스 구분
+	private int photo_num;//사진 수정 횟수
 	
 	//자동로그인
 	private String session_key;
@@ -63,5 +66,25 @@ public class UserDTO {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getCampus() {
+		return campus;
+	}
+	public void setCampus(String campus) {
+		this.campus = campus;
+	}
+	public int getPhoto_num() {
+		return photo_num;
+	}
+	public void setPhoto_num(int photo_num) {
+		this.photo_num = photo_num;
+	}
+	
+	
 	
 }

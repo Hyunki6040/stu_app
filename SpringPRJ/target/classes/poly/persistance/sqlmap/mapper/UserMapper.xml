@@ -41,27 +41,29 @@
    </select>
    
    <insert id="insertUser" parameterType="UserDTO">
-      INSERT INTO USER_INFO
+      INSERT INTO user_info
       (
-         STU_NO,
-         PASSWORD,
-         BARCODE_NO,
-         PHOTO,
-         REG_DT
+         stu_no,
+         password,
+         barcode_no,
+         reg_dt,
+         campus,
+         nickname
       )
       VALUES
       (
          #{stu_no},
          #{password},
          #{barcode_no},
-         #{photo},
-         now()
+         now(),
+         #{campus},
+         #{nickname}
       )
    </insert>
    
    <!-- 회원가입시 원래 DB 회원가입과 비교 -->
    <select id="getCompare" parameterType="StuDTO" resultType="string">
-      SELECT stu_no FROM stu_info WHERE(stu_no = #{stu_no} AND department = #{department} AND stu_name = #{stu_name} AND birth_date = #{birth_date})
+      SELECT stu_no FROM stu_info WHERE(stu_no = #{stu_no} AND department = #{department} AND stu_name = #{stu_name} AND birthday = #{birthday})
    </select>
    
    <!-- 학번으로 중복 체크 -->
@@ -71,26 +73,60 @@
       WHERE (stu_no = #{stu_no})
    </select>
    
+   <!-- 닉네임 중복 체크 -->
+   <select id = "getNickNameCk" parameterType="string" resultType="string">
+      SELECT stu_no
+      FROM user_info
+      WHERE (nickname = #{nickname})
+   </select>
+   
+   <!-- 사진수정횟수 확인 -->
+   <select id = "getPhotoNum" parameterType="string" resultType="int">
+      SELECT photo_num
+      FROM user_info
+      WHERE (stu_no = #{stu_no})
+   </select>
+   
    <!-- 사진 등록/수정 -->
    <update id = "updatePhoto" parameterType="UserDTO">
-         UPDATE USER_INFO
-            SET PHOTO = #{photo}
+         UPDATE user_info
+            SET photo = #{photo},
+            photo_num = #{photo_num}
          WHERE (stu_no = #{stu_no})
    </update>
    <!-- 회원 탈퇴 -->
    <delete id="deleteUser" parameterType="string">
       DELETE FROM user_info WHERE stu_no=#{stu_no}
    </delete>
+   
    <update id="setPassword" parameterType="UserDTO">
         UPDATE user_info
       SET password = #{password}
       WHERE (stu_no = #{stu_no})
    </update>
-
-   <!--    <select id="getPhoto" parameterType="UserDTO" resultType="UserDTO">
-      SELECT PHOTO = #{photo}
-        FROM user_info
-       WHERE (stu_no = #{stu_no})
-   </select> -->
+   
+   <update id="setNickname" parameterType="UserDTO">
+        UPDATE user_info
+      SET nickname = #{nickname}
+      WHERE (stu_no = #{stu_no})
+   </update>
+   
+   <select id="getSetting"  parameterType="string" resultType="AdminDTO">
+        SELECT *
+        FROM  admin
+        WHERE(campus=#{campus})
+    </select>
+    
+    <select id="getPath"  parameterType="string" resultType="string">
+        SELECT photo
+        FROM  user_info
+        WHERE (stu_no = #{stu_no})
+    </select>
+    
+    <update id="updatePeriod" parameterType="string">
+        UPDATE stu_info
+      SET payment = '2'
+      WHERE (stu_no = #{stu_no})
+   </update>
    
 </mapper>

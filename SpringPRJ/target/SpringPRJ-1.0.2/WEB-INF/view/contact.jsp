@@ -8,7 +8,7 @@
 <%@ page import="java.io.FileOutputStream"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -16,9 +16,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+<!-- ReCaptcha -->
+<script
+	src='https://www.google.com/recaptcha/api.js?render=6LeaUI0UAAAAAL6wM03uW1BIDSnYv-Xm0hnALttv'></script>
+<script>
+	grecaptcha.ready(function() {
+		grecaptcha.execute('6LeaUI0UAAAAAL6wM03uW1BIDSnYv-Xm0hnALttv', {
+			action : 'reg_captcha'
+		}).then(function(token) {
+			// Verify the token on the server.
+			document.getElementById('g-recaptcha-response').value = token;
+		});
+	});
+</script>
     <!-- Title -->
-    <title>Pixel - Digital Agency HTML Template</title>
+    <title>한국폴리텍대학 어플리케이션(재학생) v2</title>
 
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico">
@@ -28,7 +40,7 @@
 
 </head>
 
-<body>
+<body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'>
     <!-- Preloader -->
     <div class="preloader d-flex align-items-center justify-content-center">
         <div class="lds-ellipsis">
@@ -49,7 +61,7 @@
                     <nav class="classy-navbar justify-content-between" id="pixelNav">
 
                         <!-- Nav brand -->
-                        <a href="index.do" class="nav-brand" style="font-weight:bold; color:#FFBB00">PolyTechCardApp</a>
+                        <a href="/" class="nav-brand" style="font-weight:bold; color:#FFBB00">PolyTechCardApp</a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -81,39 +93,42 @@
                     <!-- Contact Form -->
                     <div class="contact-form-area text-center">
                         <form action="/contactProc.do" method="post" id="submitForm" enctype="multipart/form-data">
+                        
+                        <input type="hidden"
+													id="g-recaptcha-response" name="g-recaptcha-response">
+													<input type="hidden" name="action" value="reg_captcha">
                             <input type="text" name="stu_no" id = "stu_no" class="form-control wow fadeInUp"  placeholder="학번(10자리)" required/>
-                            <input type="password" name="pwd" id = "pwd" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호(8자리~20자 사이)" required/>
-                            <input type="password" name="pwd" id = "pwdChk" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호 확인(8자리~20자 사이)" required/>
+                            <input type="password" name="pwd" id = "pwd" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호(8자리~20자 사이)" style="font-family: caption;" required/>
+                            <input type="password" name="pwd" id = "pwdChk" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호 확인(8자리~20자 사이)" style="font-family: caption;" required/>
                             <input type="text" name="name" id = "name" class="form-control wow fadeInUp" placeholder="이름" required/>
-							<div class="dropdown" id="mydropdown">
-								<select id="department" name="department" style="width: 100%; height: 40px; margin-bottom: 30px; 
-									border: 1px solid #E3E3E3; color: #9A9A9A; background-color: #f6f6f6; text-align-last:center">
-									<option value="" disabled selected>학과를 선택해주세요.</option>
-									<optgroup label="학과">
-										<option value="데이터분석과">데이터분석</option>
-										<option value="디지털콘텐츠과">디지털콘텐츠</option>
-										<option value="의료정보과">의료정보</option>
-										<option value="주얼리디자인과">주얼리디자인</option>
-										<option value="패션디자인과">패션디자인</option>
-										<option value="패션산업과">패션산업</option>
-										<option value="시각정보디자인과">시각정보디자인</option>
-										<option value="실내건축디자인과">실내건축디자인</option>
-										<option value="외식조리과">외식조리</option>
-										<option value="컴퓨터응용기계과">컴퓨터응용기계</option>
-										<option value="스마트금융과과">스마트금융과</option>
-										<option value="정보보안과">정보보안</option>
-										<option value="출판편집디자인과">출판편집디자인</option>
-										<option value="의료정보(시니어헬스케어)과">의료정보(시니어헬스케어)</option>
-										<option value="산업애니메이션과">산업애니메이션</option>
-										<option value="옷수선고급과">옷수선고급</option>
-										<option value="병원CS매니저과">병원CS매니저</option>
-										<option value="포켓몬마스터과">포켓몬마스터</option>
-									</optgroup>
-								</select>
-							</div>
+							
+							<% 
+							
+							String period = (String)session.getAttribute("period");	
+							String campus = (String)session.getAttribute("campus");
+								String department = (String)session.getAttribute("department");
+								if(campus.length() > 0 && department.length() > 0){
+				            %>
+							<input type="hidden" name="campus" value="<%=campus %>">
+                        	<input type="hidden" name="department" value="<%=department %>">
+                        <input type="hidden" name="period" value="<%=period %>">
+                        	<%}else{ %>
+                        	<script>
+							   location.href="/campus.do";
+							</script>
+                        	<%} %>
 							<input type="text" name="birthdate" id = "birthdate" class="form-control wow fadeInUp" placeholder="생년월일 ex)990101" required/><br/>
+                            
+                            <h6>추가정보 - 아래의 내용들은 잘못입력하면 수정이 불가합니다. 신중히 작성해주세요.</h6><br/>
                             <h6>식권 하단에 위치한 8자리를 입력해주세요.</h6>
                             <input type = "text" name = "barcode_no" id = "barcode_no" class="form-control wow fadeInUp" maxlength="8" placeholder = "바코드 번호" required/>
+                            <br/>
+                            <h6>공백으로 두면 자동으로 닉네임이 생성됩니다.</h6>
+                            <input type = "text" name = "nickname" id = "nickname" class="form-control wow fadeInUp" maxlength="10" placeholder = "닉네임 최대 10자"/>
+                            <br/>
+                            <br/>
+                            <input type = "checkbox" name = "agreement" id = "agreement" value="agree" class="form-control wow fadeInUp" required/> <a onclick="agreement()">개인정보처리방침</a>에따른 개인정보활용에 동의 합니다.
+                            <br/>
                             <button type="button" onclick = "check()" class="btn pixel-btn wow fadeInUp" >회원가입</button>
                         </form>
                     </div>
@@ -137,6 +152,9 @@
     <script src="js/active.js"></script>
 </body>
 <script>
+function agreement(){
+	window.open("/admin/agreement.do", "_blank");
+}
 function check(){
 var pwd = document.getElementById('pwd');
 var pwdChk = document.getElementById('pwdChk');
@@ -145,6 +163,7 @@ var name = document.getElementById('name');
 var birthdate = document.getElementById('birthdate');
 var department = document.getElementById('department');
 var barcode_no = document.getElementById('barcode_no');
+var nickname = document.getElementById('nickname');
 
 if(pwd.value.length<8) { 
    alert('비밀번호는 8자 이상 20자 이하입니다.'); 
@@ -198,6 +217,8 @@ if(!Number(barcode_no.value)){
    alert('바코드번호는 숫자를 입력해야합니다');
    return false; 
    } 
+
+   
 $('#submitForm').submit();
 }
 </script>

@@ -6,22 +6,16 @@
 <%@ page import="java.io.FileOutputStream"%>
 <%
 	String stu_no = "";
+	String refresh = "";
 	try {
 		stu_no = (String) session.getAttribute("temp_id");
 		stu_no.length();
-	} catch (NullPointerException e) {%>
-		<script>location.href = "/index.do"; </script>
-		System.out.prinrln("메인페이지")
-	<%}
+	} catch (NullPointerException e) {
+		refresh = "refresh";%>
+	<%}%>
 	
-	//저장된 비어있는 쿠키 삭제
-	System.out.println(stu_no);
-	if(session.getAttribute("logout")=="1"){%>
-		<script>location.href = "/logout.do"; </script>
-	<%}
-%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -30,8 +24,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+	<%
+	if(refresh.length() > 0){
+		%>
+		<script>location.href = "/"; </script>
+		<%
+	}
+	//저장된 비어있는 쿠키 삭제
+	
+	if(session.getAttribute("logout")=="1"){%>
+		<script>location.href = "/logout.do"; </script>
+	<%}
+%>
     <!-- Title -->
-    <title>Pixel - Digital Agency HTML Template</title>
+    <title>한국폴리텍대학 어플리케이션(재학생) v2</title>
 
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico">
@@ -41,7 +47,7 @@
 
 </head>
 
-<body>
+<body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'>
     <!-- Preloader -->
     <div class="preloader d-flex align-items-center justify-content-center">
         <div class="lds-ellipsis">
@@ -62,7 +68,7 @@
                     <nav class="classy-navbar justify-content-between" id="pixelNav">
 
                         <!-- Nav brand -->
-                        <a href="index.do" class="nav-brand" style="font-weight:bold; color:#FFBB00">PolyTechCardApp</a>
+                        <a href="/" class="nav-brand" style="font-weight:bold; color:#FFBB00">PolyTechCardApp</a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -95,8 +101,8 @@
                     <div class="contact-form-area text-center">
                         <form action="/setPW.do" method="post" id="submitForm" enctype="multipart/form-data">
                             <input type="hidden" name="stu_no" value =<%=stu_no%> id = "stu_no" class="form-control wow fadeInUp" required/>
-                            <input type="password" name="pwd" id = "pwd" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호(8자리~20자 사이)" required/>
-                            <input type="password" name="pwd" id = "pwdChk" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호 확인(8자리~20자 사이)" required/>
+                            <input type="password" name="pwd" id = "pwd" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호(8자리~20자 사이)" style="font-family: caption;" required/>
+                            <input type="password" name="pwd" id = "pwdChk" class="form-control wow fadeInUp" maxlength="20" placeholder="비밀번호 확인(8자리~20자 사이)" style="font-family: caption;" required/>
                             <button type="button" onclick = "check()" class="btn pixel-btn wow fadeInUp" >비밀번호 변경</button>
                         </form>
                     </div>

@@ -11,7 +11,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Pixel - Digital Agency HTML Template</title>
+    <title>한국폴리텍대학 어플리케이션(재학생) v2</title>
 
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico">

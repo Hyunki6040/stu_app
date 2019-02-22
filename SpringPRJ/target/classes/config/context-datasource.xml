@@ -10,9 +10,9 @@
         lazy-init="false" >
  
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://192.168.219.135:32771/stu_db?useSSL=false&amp;allowMultiQueries=true&amp;serverTimezone=Asia/Seoul" />
+        <property name="url" value="jdbc:mysql://stu-db.cawdrls5qhic.us-east-2.rds.amazonaws.com:3306/stu_db?useSSL=false&amp;allowMultiQueries=true&amp;serverTimezone=Asia/Seoul" />
         <property name="username" value="stu_db" />
-        <property name="password" value="admin" />
+        <property name="password" value="비밀번호" />
     </bean>
     
         <!-- mybatis      -->
@@ -20,5 +20,7 @@
         destroy-method="clearCache">
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
     </bean>
+    
+    
     
 </beans>

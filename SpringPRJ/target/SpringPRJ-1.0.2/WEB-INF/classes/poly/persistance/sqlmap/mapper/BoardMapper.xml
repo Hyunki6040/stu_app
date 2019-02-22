@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="poly.persistance.mapper.BoardMapper">
+   <!-- insert, update, delete, select -->
+   <insert id="create" parameterType="BoardDTO">
+      INSERT INTO board
+      (
+         writer,
+         contents,
+         campus,
+         liked_usr,
+         hatred_usr,
+         reg_dt
+      )
+      VALUES
+      (
+         #{writer},
+         #{contents},
+         #{campus},
+         ', ',
+         ', ',
+         now()
+      )
+   </insert>
+   
+   <insert id="Univcreate" parameterType="BoardDTO">
+      INSERT INTO board
+      (
+         writer,
+         contents,
+         campus,
+         liked_usr,
+         hatred_usr,
+         reg_dt
+      )
+      VALUES
+      (
+         #{writer},
+         #{contents},
+         '0',
+         ', ',
+         ', ',
+         now()
+      )
+   </insert>
+   
+   <select id="CampusList"  resultType="BoardDTO">
+        SELECT *
+        FROM  board
+        WHERE ((campus=#{campus} AND hatred<![CDATA[ < ]]>#{hatred})OR (campus='0' AND hatred<![CDATA[ < ]]>10) )
+        ORDER BY
+        	bno desc,  
+            reg_dt desc;
+    </select>
+    
+    <select id="UnivList" resultType="BoardDTO">
+        SELECT *
+        FROM board
+        WHERE (campus = '0')
+        ORDER BY 
+        	bno desc,
+            reg_dt desc;
+    </select>
+    
+    <select id="CampusBestList"  resultType="BoardDTO">
+        SELECT *
+        FROM  board
+        WHERE ((campus=#{campus} AND hatred<![CDATA[ < ]]>#{hatred})OR (campus='0' AND hatred<![CDATA[ < ]]>10) )
+        ORDER BY
+        	(liked*50 + 1) / (CAST((now() - reg_dt) AS signed integer)/1000000) desc,
+            bno desc;
+    </select>
+    
+    <select id="UnivBestList" resultType="BoardDTO">
+        SELECT *
+        FROM  board
+        WHERE (campus = '0')
+        ORDER BY 
+        	(liked*50 + 1) / (CAST((now() - reg_dt) AS signed integer)/1000000) desc,
+            bno desc;
+    </select>
+    
+    <select id="getBoard"  parameterType="int" resultType="BoardDTO">
+        SELECT *
+        FROM  board
+        WHERE (bno = #{bno})
+    </select>
+
+    <update id="updateLikedBoard" parameterType="BoardDTO">
+    	UPDATE board
+    	SET liked=#{liked}, liked_usr=#{liked_usr}
+    	WHERE (bno = #{bno})
+    </update>
+    
+    <update id="updateHatredBoard" parameterType="BoardDTO">
+    	UPDATE board
+    	SET hatred=#{hatred}, hatred_usr=#{hatred_usr}
+    	WHERE (bno = #{bno})
+    </update>
+    
+    <delete id="delete" parameterType="BoardDTO">
+    	DELETE
+    	FROM board
+    	WHERE(bno=#{bno} AND writer=#{writer})
+    </delete>
+    
+    <delete id="Commentdelete" parameterType="string">
+    	DELETE
+    	FROM comments
+    	WHERE(bno=#{bno})
+    </delete>
+</mapper>

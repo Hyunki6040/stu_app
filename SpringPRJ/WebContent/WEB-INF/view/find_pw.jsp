@@ -6,7 +6,7 @@
 <%@ page import="java.io.FileOutputStream"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Pixel - Digital Agency HTML Template</title>
+    <title>한국폴리텍대학 어플리케이션(재학생) v2</title>
 
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico">
@@ -26,7 +26,7 @@
 
 </head>
 
-<body>
+<body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'>
     <!-- Preloader -->
     <div class="preloader d-flex align-items-center justify-content-center">
         <div class="lds-ellipsis">
@@ -47,7 +47,7 @@
                     <nav class="classy-navbar justify-content-between" id="pixelNav">
 
                         <!-- Nav brand -->
-                        <a href="index.do" class="nav-brand" style="font-weight:bold; color:#FFBB00">PolyTechCardApp</a>
+                        <a href="/" class="nav-brand" style="font-weight:bold; color:#FFBB00">PolyTechCardApp</a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
-import poly.dto.UserDTO;
 import poly.service.impl.UserService;
 
 public class RememberMeInterceptor extends HandlerInterceptorAdapter {

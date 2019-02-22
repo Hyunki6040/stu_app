@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import poly.dto.AdminDTO;
 import poly.dto.StuDTO;
 import poly.dto.UserDTO;
 import poly.persistance.mapper.UserMapper;
@@ -34,6 +35,11 @@ public class UserService implements IUserService {
 	public UserDTO getUser(String stu_no) throws Exception {
 		return userMapper.getUser(stu_no);
 	}
+	
+	@Override
+	public int getPhotoNum(String stu_no) throws Exception{
+		return userMapper.getPhotoNum(stu_no);
+	}
 
 	@Override
 	public void keepLogin(UserDTO mDTO) throws Exception {
@@ -60,19 +66,46 @@ public class UserService implements IUserService {
 		System.out.println("service");
 		return userMapper.getIdChk(stu_no);
 	}
+	
+	@Override
+	public String getNickNameCk(String nickname) throws Exception {
+		return userMapper.getNickNameCk(nickname);
+	}
 
 	@Override
 	   public int updatePhoto(UserDTO pDTO) throws Exception {
 	      return userMapper.updatePhoto(pDTO);
 	   }
+	
 	@Override
 	   public int setPassword(UserDTO uDTO) throws Exception {
 	      return userMapper.setPassword(uDTO);
 	   }
 	
 	@Override
+	public int setNickname(UserDTO uDTO) throws Exception{
+	      return userMapper.setNickname(uDTO);
+	   }
+	
+	@Override
 	   public int deleteUser(String stu_no) throws Exception {
 	      return userMapper.deleteUser(stu_no);
+	   }
+	
+	@Override
+	public AdminDTO getSetting(String campus) throws Exception {
+		AdminDTO setting = userMapper.getSetting(campus);
+		return setting;
+	}
+	
+	@Override
+	   public int updatePeriod(String stu_no) throws Exception {
+	     return userMapper.updatePeriod(stu_no);
+	   }
+	
+	@Override
+	   public String getPath(String stu_no) throws Exception {
+	     return userMapper.getPath(stu_no);
 	   }
 
 }

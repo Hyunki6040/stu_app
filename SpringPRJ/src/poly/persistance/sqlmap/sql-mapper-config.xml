@@ -5,6 +5,9 @@
     	<!-- 사용할 DTO 등록  -->
 		<typeAlias type="poly.dto.UserDTO" alias="UserDTO"/>
      	 <typeAlias type = "poly.dto.StuDTO" alias = "StuDTO" />
-     	 <typeAlias type = "poly.dto.StuDTO" alias = "PhotoDTO" />
+     	 <typeAlias type = "poly.dto.BoardDTO" alias = "BoardDTO" />
+     	 <typeAlias type = "poly.dto.CommentDTO" alias = "CommentDTO" />
+     	 <typeAlias type = "poly.dto.AdminDTO" alias = "AdminDTO" />
+     	
     </typeAliases>
 </configuration>

@@ -6,9 +6,9 @@ public class StuDTO {
 	private String stu_no; //학번
 	private String Department; //학과
 	private String stu_name; //학과
-	private String birth_date; //생일
+	private String birthday; //생일
 	private String reg_dt; //등록일자
-	private String payment;
+	private String payment;//학생회비 납부 여부 1(납부)or0(미납)or3(기능사)
 	
 	public String getStu_no() {
 		return stu_no;
@@ -28,11 +28,11 @@ public class StuDTO {
 	public void setStu_name(String stu_name) {
 		this.stu_name = stu_name;
 	}
-	public String getBirth_date() {
-		return birth_date;
+	public String getBirthday() {
+		return birthday;
 	}
-	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 	}
 	public String getReg_dt() {
 		return reg_dt;
