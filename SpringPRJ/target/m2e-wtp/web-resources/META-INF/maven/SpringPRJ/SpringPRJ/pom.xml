@@ -381,7 +381,7 @@
 					<url>https://kopo8315.cf/manager/text</url>
 					<path>/stu_app</path>
 					<username>tomcat</username>
-					<password>user8315</password>
+					<password>비밀번호</password>
 				</configuration>
 			</plugin>
 		</plugins>
